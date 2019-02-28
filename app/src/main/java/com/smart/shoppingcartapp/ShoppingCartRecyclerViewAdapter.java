@@ -1,9 +1,11 @@
 package com.smart.shoppingcartapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +39,7 @@ public class ShoppingCartRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ShoppingCartRecyclerViewAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ShoppingCartRecyclerViewAdapter.ViewHolder holder, final int position) {
         RequestOptions requestOptions =  new RequestOptions()
                                         .placeholder(R.drawable.ic_launcher_background);
 
@@ -45,6 +47,15 @@ public class ShoppingCartRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
                 .setDefaultRequestOptions(requestOptions)
                 .load(this.mProducts.get(position).getImage())
                 .into(holder.image);
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext,ViewProductActivity.class);
+                intent.putExtra(mContext.getString(R.string.intent_product),mProducts.get(position));
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override
